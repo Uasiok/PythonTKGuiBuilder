@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TKinter Designer - Drag & Drop Interface Builder</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Левая панель с виджетами -->
+        <div class="sidebar left-sidebar">
+            <h3>Виджеты</h3>
+            <div class="widgets-list">
+                <div class="widget-item" data-type="Button">Button</div>
+                <div class="widget-item" data-type="Label">Label</div>
+                <div class="widget-item" data-type="Entry">Entry</div>
+                <div class="widget-item" data-type="Frame">Frame</div>
+                <div class="widget-item" data-type="Canvas">Canvas</div>
+                <div class="widget-item" data-type="Listbox">Listbox</div>
+                <div class="widget-item" data-type="Checkbutton">Checkbutton</div>
+                <div class="widget-item" data-type="Radiobutton">Radiobutton</div>
+            </div>
+        </div>
+
+        <!-- Центральная область - холст -->
+        <div class="canvas-container">
+            <div class="canvas-header">
+                <h3>Дизайн интерфейса</h3>
+                <button id="clearCanvas" class="clear-btn">Очистить всё</button>
+            </div>
+            <div id="designCanvas" class="design-canvas">
+                <!-- Виджеты будут добавляться сюда -->
+            </div>
+        </div>
+
+        <!-- Правая панель свойств -->
+        <div class="sidebar right-sidebar">
+            <h3>Свойства</h3>
+            <div id="propertiesPanel" class="properties-panel">
+                <p class="no-selection">Выберите виджет для редактирования</p>
+            </div>
+        </div>
+
+        <!-- Нижняя панель -->
+        <div class="bottom-panel">
+            <button id="generateCode" class="generate-btn">Сгенерировать код</button>
+            <div id="codeOutput" class="code-output hidden">
+                <div class="code-header">
+                    <h4>Сгенерированный Python код:</h4>
+                    <button id="copyCode" class="copy-btn">Копировать</button>
+                    <button id="closeCode" class="close-btn">Закрыть</button>
+                </div>
+                <pre><code id="generatedCode"></code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/designer.js"></script>
+</body>
+</html>
