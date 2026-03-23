@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 import json
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -31,6 +32,9 @@ class Application:
         self.root = root
         self.root.title("Generated Application")
         
+        # Устанавливаем размер окна
+        self.root.geometry("800x600")
+        
 """
     
     # Генерируем код для каждого виджета
@@ -52,7 +56,7 @@ class Application:
                 code += f"        self.{widget_id}.configure(bg='{props.get('bg')}')\n"
             if 'fg' in props:
                 code += f"        self.{widget_id}.configure(fg='{props.get('fg')}')\n"
-            if 'font' in props:
+            if 'font' in props and 'font_size' in props:
                 code += f"        self.{widget_id}.configure(font=('{props.get('font')}', {props.get('font_size', 10)}))\n"
         
         elif widget_type == 'Label':
@@ -61,6 +65,8 @@ class Application:
                 code += f"        self.{widget_id}.configure(bg='{props.get('bg')}')\n"
             if 'fg' in props:
                 code += f"        self.{widget_id}.configure(fg='{props.get('fg')}')\n"
+            if 'font' in props and 'font_size' in props:
+                code += f"        self.{widget_id}.configure(font=('{props.get('font')}', {props.get('font_size', 10)}))\n"
         
         elif widget_type == 'Entry':
             code += f"        self.{widget_id} = tk.Entry(root)\n"
@@ -86,11 +92,15 @@ class Application:
             code += f"        self.{widget_id} = tk.Checkbutton(root, text='{props.get('text', 'Check')}')\n"
             if 'bg' in props:
                 code += f"        self.{widget_id}.configure(bg='{props.get('bg')}')\n"
+            if 'fg' in props:
+                code += f"        self.{widget_id}.configure(fg='{props.get('fg')}')\n"
         
         elif widget_type == 'Radiobutton':
             code += f"        self.{widget_id} = tk.Radiobutton(root, text='{props.get('text', 'Radio')}', value=1)\n"
             if 'bg' in props:
                 code += f"        self.{widget_id}.configure(bg='{props.get('bg')}')\n"
+            if 'fg' in props:
+                code += f"        self.{widget_id}.configure(fg='{props.get('fg')}')\n"
         
         # Размещаем виджет
         code += f"        self.{widget_id}.place(x={x}, y={y}, width={width}, height={height})\n\n"
@@ -106,4 +116,14 @@ if __name__ == "__main__":
     return code
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    # Получаем порт из переменной окружения (для хостингов типа Render, Heroku)
+    port = int(os.environ.get('PORT', 5000))
+    
+    # Настройка для продакшена
+    # Используем 0.0.0.0 чтобы слушать все интерфейсы
+    app.run(
+        host='0.0.0.0',  # Важно для доступа с других устройств
+        port=port,
+        debug=False,  # В продакшене отключаем debug
+        threaded=True
+    )
