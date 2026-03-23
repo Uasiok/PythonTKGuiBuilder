@@ -15,6 +15,8 @@ source venv/bin/activate
 
 # Установите зависимости
 pip install -r requirements.txt
-2. Запуск приложения
+
+
+# Запуск приложения
 bash
 python app.py
